@@ -4,7 +4,7 @@
 ## Installation:
 ```bash
 conda create -n imagej-service python=3.8
-conda install -y -c conda-forge pyimagej=1.0.2 openjdk=8
+conda install -y -c conda-forge pyimagej=1.3.2 openjdk=8
 pip install -r requirements.txt
 ```
 

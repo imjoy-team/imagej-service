@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-utils\
     unzip
 RUN conda update pip -y
-RUN conda install -y -c conda-forge pyimagej=1.0.2 openjdk=8
+RUN conda install -y -c conda-forge pyimagej=1.3.2 openjdk=8
 RUN wget https://downloads.imagej.net/fiji/archive/20201104-1356/fiji-linux64.zip && \
     unzip fiji-linux64.zip -d /home && \
     # fix FilamentDetector issue
