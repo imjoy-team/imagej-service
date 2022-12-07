@@ -90,9 +90,9 @@ async def execute(config, context=None):
 
 
 def run_imagej(config):
+    headless = config.get("headless", False)
+    ij = imagej.init(os.environ["IMAGEJ_DIR"], headless=headless)
     try:
-        headless = config.get("headless", False)
-        ij = imagej.init(os.environ["IMAGEJ_DIR"], headless=headless)
         WindowManager = sj.jimport("ij.WindowManager")
         ImagePlus = sj.jimport("ij.ImagePlus")
         logs = capture_console(ij)
@@ -252,7 +252,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--server-url",
         type=str,
-        default="http://ai.imjoy.io",
+        default="https://ai.imjoy.io",
         help="URL for the hypha server",
     )
     opt = parser.parse_args()

@@ -5,9 +5,15 @@
 ```bash
 conda create -n imagej-service python=3.8
 conda install -y -c conda-forge pyimagej=1.3.2 openjdk=8
-pip install -r requirements.txt
+i
 ```
 
+## Usage
+```bash
+python run_imagej_service.py --imagej-dir=/home/Fiji.app --server-url=https://ai.imjoy.io
+```
+
+## Development
 
 To test pyimagej, run:
 ```
