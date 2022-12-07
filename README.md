@@ -13,6 +13,8 @@ i
 python run_imagej_service.py --imagej-dir=/home/Fiji.app --server-url=https://ai.imjoy.io
 ```
 
+Keep the terminal open, now you can access the service in a jupyter notebook (in the browser) via [this link](https://jupyter.imjoy.io/lab/index.html?load=https://gist.githubusercontent.com/oeway/e446c52b0edb55ade30bcd34a098c74f/raw/hypha-quick-tour-imagej-service.ipynb&open=1).
+
 ## Development
 
 To test pyimagej, run:
