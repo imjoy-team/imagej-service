@@ -93,7 +93,7 @@ def get_imagej_instance():
     if sj.jvm_started():
         return ij_instance
     else:
-        ij_instance = imagej.init("/home/edward/Documents/software/fiji", headless=False)
+        ij_instance = imagej.init(os.environ["IMAGEJ_DIR"], headless=False)
         return ij_instance
 
 def run_imagej(config):
@@ -161,6 +161,7 @@ def run_imagej(config):
                 args[k] = ij.py.to_java(inputs[k])
 
         # Run the script
+        #breakpoint()
         macro_result = ij.py.run_script(lang, script, args)
         results = {}
         if select_outputs is None:
@@ -254,7 +255,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--imagej-dir",
         type=str,
-        default="/home/edward/Documents/software/fiji",
+        default="/home/Fiji.app",
         help="The path to the ImageJ directory",
     )
     parser.add_argument(
