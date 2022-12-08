@@ -99,9 +99,7 @@ def get_imagej_instance():
 def run_imagej(config):
     headless = config.get("headless", False)
     ij = get_imagej_instance()
-    #ij = imagej.init(os.environ["IMAGEJ_DIR"], headless=headless)
     try:
-        WindowManager = sj.jimport("ij.WindowManager")
         ImagePlus = sj.jimport("ij.ImagePlus")
         logs = capture_console(ij)
         script = config.get("script")
@@ -161,7 +159,6 @@ def run_imagej(config):
                 args[k] = ij.py.to_java(inputs[k])
 
         # Run the script
-        #breakpoint()
         macro_result = ij.py.run_script(lang, script, args)
         results = {}
         if select_outputs is None:
@@ -185,7 +182,7 @@ def run_imagej(config):
             else:
                 # If the output name is not in the script annotation,
                 # Try to get the image from the WindowManager by title
-                img = WindowManager.getImage(k)
+                img = ij.WindowManager.getImage(k)
                 if not img:
                     raise Exception(f"Output not found: {k}\n{format_logs(logs)}")
                 results[k] = ij.py.from_java(img).to_numpy()
