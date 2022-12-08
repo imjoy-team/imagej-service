@@ -10,7 +10,7 @@ from jpype import JOverride, JImplements
 from imjoy_rpc.hypha import connect_to_server
 
 os.environ["JAVA_HOME"] = os.sep.join(sys.executable.split(os.sep)[:-2] + ["jre"])
-
+ij_instance = None
 
 def capture_console(ij, print=True):
     logs = {}
@@ -88,10 +88,18 @@ async def execute(config, context=None):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, run_imagej, config)
 
+def get_imagej_instance():
+    global ij_instance
+    if sj.jvm_started():
+        return ij_instance
+    else:
+        ij_instance = imagej.init("/home/edward/Documents/software/fiji", headless=False)
+        return ij_instance
 
 def run_imagej(config):
     headless = config.get("headless", False)
-    ij = imagej.init(os.environ["IMAGEJ_DIR"], headless=headless)
+    ij = get_imagej_instance()
+    #ij = imagej.init(os.environ["IMAGEJ_DIR"], headless=headless)
     try:
         WindowManager = sj.jimport("ij.WindowManager")
         ImagePlus = sj.jimport("ij.ImagePlus")
@@ -183,8 +191,8 @@ def run_imagej(config):
                 check_size(results[k])
     except Exception as exp:
         raise exp
-    finally:
-        ij.dispose()
+    #finally:
+    #    ij.dispose()
 
     return {"outputs": results, "logs": logs}
 
@@ -246,7 +254,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--imagej-dir",
         type=str,
-        default="/home/Fiji.app",
+        default="/home/edward/Documents/software/fiji",
         help="The path to the ImageJ directory",
     )
     parser.add_argument(
