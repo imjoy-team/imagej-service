@@ -10,7 +10,7 @@ from jpype import JOverride, JImplements
 from imjoy_rpc.hypha import connect_to_server
 
 os.environ["JAVA_HOME"] = os.sep.join(sys.executable.split(os.sep)[:-2] + ["jre"])
-
+ij_instance = None
 
 def capture_console(ij, print=True):
     logs = {}
@@ -88,12 +88,18 @@ async def execute(config, context=None):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, run_imagej, config)
 
+def get_imagej_instance():
+    global ij_instance
+    if sj.jvm_started():
+        return ij_instance
+    else:
+        ij_instance = imagej.init(os.environ["IMAGEJ_DIR"], mode="interactive")
+        return ij_instance
 
 def run_imagej(config):
     headless = config.get("headless", False)
-    ij = imagej.init(os.environ["IMAGEJ_DIR"], headless=headless)
+    ij = get_imagej_instance()
     try:
-        WindowManager = sj.jimport("ij.WindowManager")
         ImagePlus = sj.jimport("ij.ImagePlus")
         logs = capture_console(ij)
         script = config.get("script")
@@ -111,7 +117,7 @@ def run_imagej(config):
                     if inputs[k].ndim == 2:
                         dims = ["x", "y"]
                     elif inputs[k].ndim == 3 and inputs[k].shape[2] in [1, 3, 4]:
-                        dims = ["x", "y", "c"]
+                        dims = ["y", "x", "c"]
                     elif inputs[k].ndim == 3 and inputs[k].shape[0] in [1, 3, 4]:
                         dims = ["c", "x", "y"]
                     elif inputs[k].ndim == 3:
@@ -176,15 +182,15 @@ def run_imagej(config):
             else:
                 # If the output name is not in the script annotation,
                 # Try to get the image from the WindowManager by title
-                img = WindowManager.getImage(k)
+                img = ij.WindowManager.getImage(k)
                 if not img:
                     raise Exception(f"Output not found: {k}\n{format_logs(logs)}")
                 results[k] = ij.py.from_java(img).to_numpy()
                 check_size(results[k])
     except Exception as exp:
         raise exp
-    finally:
-        ij.dispose()
+    #finally:
+    #    ij.dispose()
 
     return {"outputs": results, "logs": logs}
 

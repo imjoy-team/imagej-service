@@ -1,0 +1,26 @@
+# Use this file to construct an environment for working
+# with the PyImageJ tutorial notebooks in the doc folder.
+#
+# First, install mambaforge:
+#
+#   https://github.com/conda-forge/miniforge#mambaforge
+#
+# Then run:
+#
+#   mamba env create
+#   mamba activate imagej-service
+
+name: imagej-service
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  # Project dependencies
+  - pyimagej
+  - openjdk=8
+  # Project from source
+  - pip
+  - pip:
+    - imjoy-rpc==0.5.6
+    - hypha
