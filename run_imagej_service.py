@@ -93,7 +93,7 @@ def get_imagej_instance():
     if sj.jvm_started():
         return ij_instance
     else:
-        ij_instance = imagej.init(os.environ["IMAGEJ_DIR"], headless=False)
+        ij_instance = imagej.init(os.environ["IMAGEJ_DIR"], mode="interactive")
         return ij_instance
 
 def run_imagej(config):
