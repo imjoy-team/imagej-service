@@ -117,7 +117,7 @@ def run_imagej(config):
                     if inputs[k].ndim == 2:
                         dims = ["x", "y"]
                     elif inputs[k].ndim == 3 and inputs[k].shape[2] in [1, 3, 4]:
-                        dims = ["x", "y", "c"]
+                        dims = ["y", "x", "c"]
                     elif inputs[k].ndim == 3 and inputs[k].shape[0] in [1, 3, 4]:
                         dims = ["c", "x", "y"]
                     elif inputs[k].ndim == 3:
