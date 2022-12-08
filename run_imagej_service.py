@@ -93,7 +93,7 @@ def get_imagej_instance():
     if sj.jvm_started():
         return ij_instance
     else:
-        ij_instance = imagej.init(os.environ["IMAGEJ_DIR"], mode="interactive")
+        ij_instance = imagej.init("net.imagej:imagej:2.9.0+net.imagej:ij1-patcher:1.2.3")
         return ij_instance
 
 def run_imagej(config):
