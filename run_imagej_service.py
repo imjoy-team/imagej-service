@@ -115,17 +115,17 @@ def run_imagej(config):
             if isinstance(inputs[k], (np.ndarray, np.generic, dict)):
                 if isinstance(inputs[k], (np.ndarray, np.generic)):
                     if inputs[k].ndim == 2:
-                        dims = ["x", "y"]
+                        dims = ["y", "x"]
                     elif inputs[k].ndim == 3 and inputs[k].shape[2] in [1, 3, 4]:
                         dims = ["y", "x", "c"]
                     elif inputs[k].ndim == 3 and inputs[k].shape[0] in [1, 3, 4]:
-                        dims = ["c", "x", "y"]
+                        dims = ["c", "y", "x"]
                     elif inputs[k].ndim == 3:
-                        dims = ["z", "x", "y"]
+                        dims = ["z", "y", "x"]
                     elif inputs[k].ndim == 4:
-                        dims = ["z", "x", "y", "c"]
+                        dims = ["z", "y", "x", "c"]
                     elif inputs[k].ndim == 5:
-                        dims = ["t", "z", "x", "y", "c"]
+                        dims = ["t", "z", "y", "x", "c"]
                     else:
                         raise Exception(f"Unsupported ndim: {inputs[k].ndim}")
                     inputs[k] = {"data": inputs[k], "dims": dims}
